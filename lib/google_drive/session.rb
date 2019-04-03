@@ -659,7 +659,7 @@ module GoogleDrive
         supports_team_drives: true
       }
       for k, v in params
-        unless %i[convert convert_mime_type parents].include?(k)
+        unless %i[convert convert_mime_type parents description].include?(k)
           api_params[k] = v
         end
       end
@@ -672,7 +672,9 @@ module GoogleDrive
             IMPORTABLE_CONTENT_TYPE_MAP.key?(content_type)
         file_metadata[:mime_type] = IMPORTABLE_CONTENT_TYPE_MAP[content_type]
       end
+
       file_metadata[:parents] = params[:parents] if params[:parents]
+      file_metadata[:description] = params[:description] if params[:description]
 
       file = drive_service.create_file(file_metadata, api_params)
       wrap_api_file(file)
